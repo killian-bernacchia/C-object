@@ -143,26 +143,8 @@ ERROR_CODE setPrivateVar2(MyClass* myClass, int i)
 
 
 
-int main()
-{
-    MyClass* myClass = createMyClass(10,2,-1,-20);
- 
-    char buffer[20];
-
-    myClass->toString(myClass,buffer);
-    myClass->publicVar2 = 20; 
-    myClass->setPrivateVar1(myClass, -10);
 
 
-    MyClass* myClass2 = createMyClass(100,20,-10,-200);
-
-    myClass2->toString(myClass2,buffer);
-    myClass2->publicVar2 = 200; 
-    myClass2->setPrivateVar1(myClass2, -100);
-}
-
-
-/*
 int main()
 {
     MyClass* myClass = createMyClass(10,2,-1,-20);
@@ -206,4 +188,3 @@ int main()
     printf("%i\n", myClass2->getPrivateVar1(myClass2));//-100
     printf("%i\n", myClass2->getPrivateVar2(myClass2));//-200
 }
-*/
