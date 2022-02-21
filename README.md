@@ -1,3 +1,2 @@
 # C-object
-Trying some shit in C
-(I will update the README)
+Des choses que j'avais envie d'essayer par curiosité.
