@@ -16,6 +16,7 @@ IntsPreDefined ints ={2,8,6};
 
 void testDefined()
 {
+    printf("\ntest defined\n");
     ints.i=1;
     printf("%i | %i | %i | %i |\n",IntsDefined.i3,ints.i3,ints.i2,ints.i);
 }
@@ -32,7 +33,7 @@ typedef struct unconstStruct
 
 void testConst()
 {
-    printf("const test\n");
+    printf("\nconst test\n");
     constStruct myConst = {.i=5, };
     printf("myConst.i=%i\n",myConst.i);
     unconstStruct* p_unconst = (unconstStruct*) &myConst;
@@ -55,7 +56,7 @@ typedef struct big
 
 void testBigSmall()
 {
-    printf("big/small test\n");
+    printf("\nbig/small test\n");
     big bigOne;
     bigOne = (big) {1,2,3,4};
     printf("bigOne : %i, %i, %i, %i\n",bigOne.s.a,bigOne.s.b,bigOne.c,bigOne.d);
@@ -78,7 +79,7 @@ typedef struct MyStruct
 
 MyStruct* testMalloc()
 {
-    printf("malloc test\n");
+    printf("\nmalloc test\n");
     MyStruct patern_var = (MyStruct) {1,2,"345",6};
     MyStruct* p_var = malloc(sizeof(MyStruct));
 
@@ -98,6 +99,7 @@ void aFunction()
 
 ptr_f testReturnFunctionPointer()
 {
+    printf("\ntestReturnFunctionPointer\n");
     return &aFunction;
 }
 
@@ -120,6 +122,7 @@ ptr_f ReturnPersonalizedFunction(int i)
 
 void testReturnPersonalizedFunction()
 {
+    printf("\ntestReturnPersonalizedFunction\n");
     ptr_f p_f1 = ReturnPersonalizedFunction(1);
     p_f1();
     ptr_f p_f2 = ReturnPersonalizedFunction(2);
@@ -130,6 +133,7 @@ void testReturnPersonalizedFunction()
 
 void testVariableForkInitialisationAvant()
 {
+    printf("\ntestVariableForkInitialisationAvant\n");
     int x = 0;
     printf("A has x = %d \t|%li\n", x,(long int) &x);  
     if (fork() == 0)
@@ -147,6 +151,7 @@ void testVariableForkInitialisationAvant()
 
 void testVariableForkInitialisationApres()
 {
+    printf("\ntestVariableForkInitialisationApres\n");
     int x = 10;
     printf("A has x = %d \t|%li\n", x,(long int) &x);  
     if (fork() == 0)
@@ -164,6 +169,7 @@ void testVariableForkInitialisationApres()
 
 void testFonctionForkInitialisationApres()
 {
+    printf("\ntestFonctionForkInitialisationApres\n");
     void f(){};
     void (*pt)(void) = &f;
 
@@ -173,13 +179,14 @@ void testFonctionForkInitialisationApres()
     if (fork() == 0)
     {
         void f(){
-            printf("My function");
+            printf("My function\n");
         }
         pt=&f;
         printf("B has %li|%li\n",(long int) &f, (long int)pt);  
     }
     f();
-    printf("C has %li|%li\n",(long int) &f, (long int)pt);  
+    pt();
+    printf("C has %li|%li\n",(long int) &f, (long int)pt);
 }
 
 typedef struct
@@ -190,9 +197,22 @@ typedef struct
 
 object* createObject()
 {
-    static int nbOcc = 0;
-    int i = 0;
-    while(1);
+    static int nbOcc = 5;
+    object* obj = malloc(sizeof(object));
+    obj->id=++nbOcc;
+
+
+    int pid = 0;
+    for(int i = 0;i<nbOcc;i++){
+        if((pid = fork())!=0){
+            printf("%i, %i\n",i,pid);
+            exit(0);
+        }
+        printf("in the loop, %i\n",getpid());
+    }
+
+    printf("out of loop, %i\n",getpid());
+    return obj;
 }
 
 
@@ -213,11 +233,12 @@ int main()
 
     //testReturnPersonalizedFunction();
 
-    testVariableForkInitialisationAvant();
+    //testVariableForkInitialisationAvant();
 
-    testVariableForkInitialisationApres();
+    //testVariableForkInitialisationApres();
 
-    testFonctionForkInitialisationApres();
-    testFonctionForkInitialisationApres();
+    //testFonctionForkInitialisationApres();
+    //testFonctionForkInitialisationApres();
 
+    createObject();
 }
